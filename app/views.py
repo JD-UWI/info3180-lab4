@@ -46,6 +46,24 @@ def upload():
 
     return render_template('upload.html',form=form)
 
+def get_uploaded_images():
+    imglst = []
+    for subdir,dirs,files in os.walk(os.getcwd() + '/uploads'):
+        for file in files:
+            if file == '.gitkeep':
+                continue
+            imglst.append(os.path.join(file))
+        return imglst
+
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
+
+@app.route('/files')
+@login_required
+def files():
+    return render_template('files.html', images=get_uploaded_images())
+
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -80,6 +98,7 @@ def login():
             flash('Username or Password is incorrect.','failure')
 
     return render_template("login.html", form=form)
+
 
 # user_loader callback. This callback is used to reload the user object from
 # the user ID stored in the session
