@@ -20,10 +20,14 @@ body {
 }
 
 .imgview{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
+img {
+    width: auto;
+    height: 300px;
+    object-fit: cover;
+  }  
 
 .library{
     width: 25vw;
